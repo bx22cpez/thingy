@@ -10,6 +10,9 @@ var ball;
 var slingShot;
 var polygon_img;
 function preload(){
+
+var gameState = "onSling";
+
   polygon_img=loadImage("polygon.png");
 }
 function setup() {
@@ -117,15 +120,17 @@ function draw() {
   slingShot.display();
 }
 function mouseDragged(){
-  Matter.Body.setPosition(this.ball,{x:mouseX,y:mouseY});
+  if(gameState!=="launched"){
+    Matter.Body.setPosition(this.ball , {x: mouseX , y: mouseY});
+    }
 }
 function mouseReleased(){
   slingShot.fly();
+  gameState = "launched";
 }
 
 function keyPressed(){
-  if(keyCode === 32){
-    slingShot = new Slingshot(this.ball,{x:100,y:200});
-
- }
+  if (keyCode === 32){
+      Slingshot.attach(ball.body);
+  }
 }
